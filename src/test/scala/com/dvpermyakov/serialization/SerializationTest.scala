@@ -164,10 +164,9 @@ class SerializationTest {
     val serData = serialization.serialize(sample)
     val sample2: SampleCase = serialization.deserialize(serData)
 
-    Assert.assertEquals(
-      sample.valueString,
-      sample2.valueString
-    )
+    val assertStringsEquals = (str1: String, str2: String) => Assert.assertEquals(str1, str2)
+    assertStringsEquals.apply(sample.valueString, sample2.valueString)
+
     Assert.assertEquals(
       sample.valueInt,
       sample2.valueInt
