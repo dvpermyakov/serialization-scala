@@ -18,9 +18,11 @@ class SerializationTest {
 
   @Test
   def simpleClass(): Unit = {
+    val serialization = new Serialization(ClassFactory.get(classOf[Sample]))
+
     val sample = new Sample()
-    val serData = Serialization.serialize(sample)
-    val sample2: Sample = Serialization.deserialize(serData).asInstanceOf[Sample]
+    val serData = serialization.serialize(sample)
+    val sample2: Sample = serialization.deserialize(serData)
 
     Assert.assertEquals(
       sample.valueString,

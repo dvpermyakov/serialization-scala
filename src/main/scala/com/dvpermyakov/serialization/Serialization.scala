@@ -2,9 +2,9 @@ package com.dvpermyakov.serialization
 
 import scala.collection.mutable.ListBuffer
 
-object Serialization {
+class Serialization[T](classFactory: ClassFactory[T]) {
 
-  def serialize(obj: Object): String = {
+  def serialize(obj: T): String = {
     val fullName = obj.getClass.getCanonicalName
 
     var fieldNames = new ListBuffer[String]()
@@ -16,27 +16,27 @@ object Serialization {
     s"$fullName-${fieldNames.mkString("+")}"
   }
 
-  def deserialize(string: String): Any = {
+  def deserialize(string: String): T = {
     val fullName: String = string.split('-')(0)
     val fieldArgs: List[String] = string.split('-')(1).split('+').toList
 
     val clazz = Class.forName(fullName)
-    val obj = clazz.getConstructor().newInstance()
+    val obj = classFactory.newInstance()
 
     for (fieldArg: String <- fieldArgs) {
       val name = fieldArg.split(':')(0)
       val value = fieldArg.split(':')(1)
-      val typ = fieldArg.split(':')(2)
+      val rawType = fieldArg.split(':')(2)
       val field = clazz.getDeclaredField(name)
       field.setAccessible(true)
-      field.set(obj, castToTypes(typ, value))
+      field.set(obj, castToTypes(rawType, value))
     }
 
     obj
   }
 
-  private def castToTypes(typ: String, value: String): Any = {
-    typ match {
+  private def castToTypes(rawType: String, value: String): Any = {
+    rawType match {
       case "String" => value
       case "int" => value.toInt
       case "long" => value.toLong
