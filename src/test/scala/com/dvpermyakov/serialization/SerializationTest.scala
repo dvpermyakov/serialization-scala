@@ -6,11 +6,9 @@ class SerializationTest {
 
   @Test
   def sampleDefaultConstructor(): Unit = {
-    val serialization = new Serialization(ClassFactory.get(classOf[SampleDefaultConstructor]))
-
     val sample = new SampleDefaultConstructor()
-    val serData = serialization.serialize(sample)
-    val sample2: SampleDefaultConstructor = serialization.deserialize(serData)
+    val serData = Serialization.serialize(sample)
+    val sample2: SampleDefaultConstructor = Serialization.deserialize(serData)
 
     Assert.assertEquals(
       sample.valueString,
@@ -54,8 +52,6 @@ class SerializationTest {
 
   @Test
   def sampleConstructor(): Unit = {
-    val serialization = new Serialization(ClassFactory.get(classOf[SampleConstructor]))
-
     val sample = new SampleConstructor(
       valueString = "new string",
       valueInt = 10,
@@ -67,8 +63,8 @@ class SerializationTest {
       valueFloat = 400f,
       valueShort = 20
     )
-    val serData = serialization.serialize(sample)
-    val sample2: SampleConstructor = serialization.deserialize(serData)
+    val serData: String = Serialization.serialize(sample)
+    val sample2: SampleConstructor = Serialization.deserialize(serData)
 
     Assert.assertEquals(
       sample.valueString,
@@ -112,8 +108,6 @@ class SerializationTest {
 
   @Test
   def sampleCase(): Unit = {
-    val serialization = new Serialization(ClassFactory.get(classOf[SampleCase]))
-
     val sample = SampleCase(
       valueString = "str",
       valueInt = 400,
@@ -125,8 +119,8 @@ class SerializationTest {
       valueFloat = 122f,
       valueShort = 30
     )
-    val serData = serialization.serialize(sample)
-    val sample2: SampleCase = serialization.deserialize(serData)
+    val serData = Serialization.serialize(sample)
+    val sample2: SampleCase = Serialization.deserialize(serData)
 
     val assertStringsEquals = (str1: String, str2: String) => Assert.assertEquals(str1, str2)
     assertStringsEquals.apply(sample.valueString, sample2.valueString)

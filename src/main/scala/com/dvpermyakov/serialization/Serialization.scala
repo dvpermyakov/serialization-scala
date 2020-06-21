@@ -2,9 +2,10 @@ package com.dvpermyakov.serialization
 
 import scala.collection.mutable.ListBuffer
 
-class Serialization[T](classFactory: ClassFactory[T]) {
+object Serialization {
 
-  def serialize(obj: T): String = {
+  def serialize[T](obj: T): String = {
+
     val fullName = obj.getClass.getCanonicalName
 
     var fieldNames = new ListBuffer[String]()
@@ -16,12 +17,12 @@ class Serialization[T](classFactory: ClassFactory[T]) {
     s"$fullName-${fieldNames.mkString("+")}"
   }
 
-  def deserialize(string: String): T = {
+  def deserialize[T](string: String): T = {
     val stringSplit = string.split('-')
     val (fullName: String, fieldArgs: List[String]) = (stringSplit(0), stringSplit(1).split('+').toList)
 
     val clazz = Class.forName(fullName)
-    val obj = classFactory.newInstance()
+    val obj = ClassFactory.get(clazz).newInstance().asInstanceOf[T]
 
     for (fieldArg: String <- fieldArgs) {
       val fieldSplit = fieldArg.split(':')
