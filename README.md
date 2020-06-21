@@ -1,4 +1,4 @@
-# Util classes for serialize an object to a string and deserialize a string to an object
+Util classes for serialize an object to a string and deserialize a string to an object
 
 For example, if you have a class:
 ```Scala
@@ -11,7 +11,7 @@ Serialization.serialize(Sample())
 ```
 
 The string will be:
-```Scala
+```
 Sample-str:str:String+value:100:int
 ```
 
