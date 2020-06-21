@@ -2,42 +2,6 @@ package com.dvpermyakov.serialization
 
 import org.junit.{Assert, Test}
 
-class SampleDefaultConstructor() {
-  val valueString: String = "str"
-  val valueInt: Int = 100
-  val valueLong: Long = 110L
-  val valueFloat: Float = 120f
-  val valueDouble: Double = 130
-  val valueChar: Char = '$'
-  val valueBoolean: Boolean = true
-  val valueByte: Byte = 10
-  val valueShort: Short = 20
-}
-
-class SampleConstructor(
-                         val valueString: String,
-                         val valueInt: Int,
-                         val valueLong: Long,
-                         val valueFloat: Float,
-                         val valueDouble: Double,
-                         val valueChar: Char,
-                         val valueBoolean: Boolean,
-                         val valueByte: Byte,
-                         val valueShort: Short
-                       )
-
-case class SampleCase(
-                       valueString: String,
-                       valueInt: Int,
-                       valueLong: Long,
-                       valueFloat: Float,
-                       valueDouble: Double,
-                       valueChar: Char,
-                       valueBoolean: Boolean,
-                       valueByte: Byte,
-                       valueShort: Short
-                     )
-
 class SerializationTest {
 
   @Test

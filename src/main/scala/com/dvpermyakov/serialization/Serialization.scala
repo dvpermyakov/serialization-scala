@@ -17,16 +17,15 @@ class Serialization[T](classFactory: ClassFactory[T]) {
   }
 
   def deserialize(string: String): T = {
-    val fullName: String = string.split('-')(0)
-    val fieldArgs: List[String] = string.split('-')(1).split('+').toList
+    val stringSplit = string.split('-')
+    val (fullName: String, fieldArgs: List[String]) = (stringSplit(0), stringSplit(1).split('+').toList)
 
     val clazz = Class.forName(fullName)
     val obj = classFactory.newInstance()
 
     for (fieldArg: String <- fieldArgs) {
-      val name = fieldArg.split(':')(0)
-      val value = fieldArg.split(':')(1)
-      val rawType = fieldArg.split(':')(2)
+      val fieldSplit = fieldArg.split(':')
+      val (name, value, rawType) = (fieldSplit(0), fieldSplit(1), fieldSplit(2))
       val field = clazz.getDeclaredField(name)
       field.setAccessible(true)
       field.set(obj, castToTypes(rawType, value))
